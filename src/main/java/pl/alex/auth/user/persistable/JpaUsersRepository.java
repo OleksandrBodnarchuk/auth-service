@@ -3,6 +3,7 @@ package pl.alex.auth.user.persistable;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import pl.alex.auth.user.create.CreateUserCommand;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 class JpaUsersRepository implements UsersRepository {
 
     JpaUsersDao jpaUsersDao;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserEntity findById(UUID id) {
@@ -32,7 +34,7 @@ class JpaUsersRepository implements UsersRepository {
         UserEntity user = UserEntity.builder()
                 .email(command.getEmail())
                 .name(command.getName())
-                .password(command.getPassword())
+                .password(bCryptPasswordEncoder.encode(command.getPassword()))
                 .build();
         return jpaUsersDao.save(user);
     }
