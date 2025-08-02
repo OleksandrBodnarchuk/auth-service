@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 public record CreateUserRequest(
-        @NotBlank String name,
+        @NotBlank String login,
         @NotBlank String password,
         @NotBlank
         @Email

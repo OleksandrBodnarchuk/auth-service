@@ -1,5 +1,6 @@
 package pl.alex.auth.user.persistable;
 
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +28,11 @@ class JpaUsersRepository implements UsersRepository {
     @Override
     public boolean existsByEmail(String email) {
         return jpaUsersDao.existsByEmail(email);
+    }
+
+    @Override
+    public Optional<UserEntity> findByEmail(String email) {
+        return jpaUsersDao.findByEmail(email);
     }
 
     @Override

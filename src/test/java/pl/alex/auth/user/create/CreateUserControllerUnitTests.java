@@ -34,7 +34,7 @@ class CreateUserControllerUnitTests {
 
         CreateUserResponse response = new CreateUserResponse(
                 UUID.randomUUID(),
-                request.name(),
+                request.login(),
                 request.email()
         );
 

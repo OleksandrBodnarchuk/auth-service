@@ -1,5 +1,6 @@
 package pl.alex.auth.user.persistable;
 
+import java.util.Optional;
 import pl.alex.auth.user.create.CreateUserCommand;
 
 import java.util.List;
@@ -10,6 +11,8 @@ public interface UsersRepository {
     UserEntity findById(UUID id);
 
     boolean existsByEmail(String email);
+
+    Optional<UserEntity> findByEmail(String email);
 
     UserEntity saveUser(CreateUserCommand command);
 

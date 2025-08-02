@@ -13,7 +13,7 @@ public class CreateUserCommand {
 
     static CreateUserCommand from(CreateUserRequest createUserRequest) {
         return CreateUserCommand.builder()
-                .name(createUserRequest.name())
+                .name(createUserRequest.login())
                 .password(createUserRequest.password())
                 .email(createUserRequest.email())
                 .build();
