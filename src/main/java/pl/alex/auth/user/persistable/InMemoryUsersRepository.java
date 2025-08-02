@@ -1,5 +1,6 @@
 package pl.alex.auth.user.persistable;
 
+import java.util.Optional;
 import pl.alex.auth.user.create.CreateUserCommand;
 
 import java.util.List;
@@ -9,37 +10,43 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryUsersRepository implements UsersRepository {
 
-    private final Map<UUID, UserEntity> inMemoryUsers = new ConcurrentHashMap<>();
+  private final Map<UUID, UserEntity> inMemoryUsers = new ConcurrentHashMap<>();
 
-    @Override
-    public UserEntity findById(UUID id) {
-        return inMemoryUsers.get(id);
-    }
+  @Override
+  public UserEntity findById(UUID id) {
+    return inMemoryUsers.get(id);
+  }
 
-    @Override
-    public boolean existsByEmail(String email) {
-        return inMemoryUsers.values().stream()
-                .anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
-    }
+  @Override
+  public boolean existsByEmail(String email) {
+    return inMemoryUsers.values().stream()
+        .anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
+  }
 
-    @Override
-    public UserEntity saveUser(CreateUserCommand command) {
-        UserEntity user = UserEntity.builder()
-                .id(UUID.randomUUID())
-                .email(command.getEmail())
-                .password(command.getPassword())
-                .name(command.getName())
-                .build();
-        inMemoryUsers.put(user.getId(), user);
-        return user;
-    }
+  @Override
+  public Optional<UserEntity> findByEmail(String email) {
+    return inMemoryUsers.values().stream().filter(u -> u.getEmail().equalsIgnoreCase(email))
+        .findFirst();
+  }
 
-    @Override
-    public List<UserEntity> findAll() {
-        return (List<UserEntity>) inMemoryUsers.values();
-    }
+  @Override
+  public UserEntity saveUser(CreateUserCommand command) {
+    UserEntity user = UserEntity.builder()
+        .id(UUID.randomUUID())
+        .email(command.getEmail())
+        .password(command.getPassword())
+        .name(command.getName())
+        .build();
+    inMemoryUsers.put(user.getId(), user);
+    return user;
+  }
 
-    public void deleteAll() {
-        inMemoryUsers.clear();
-    }
+  @Override
+  public List<UserEntity> findAll() {
+    return (List<UserEntity>) inMemoryUsers.values();
+  }
+
+  public void deleteAll() {
+    inMemoryUsers.clear();
+  }
 }

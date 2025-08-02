@@ -29,7 +29,6 @@ class CreateUserHandlerTest {
     @Test
     void when_handle_create_user_thenThrowIfUserExists() {
         var command = new CreateUserCommand("test", "test", "test@email.com");
-        var userResponse = createUserHandler.handle(command);
         assertThrows(RuntimeException.class, () -> createUserHandler.handle(command));
     }
 
